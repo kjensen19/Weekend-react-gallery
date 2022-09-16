@@ -6,7 +6,7 @@ function GalleryList({gallery, fetchGallery}) {
         <div className="cards">
             {gallery.map(galleryItem =>{
                 return(
-                <GalleryItem galleryItem={galleryItem} fetchGallery={fetchGallery}/>
+                <GalleryItem key={galleryItem.id} galleryItem={galleryItem} fetchGallery={fetchGallery}/>
                 )
             })}
         </div>

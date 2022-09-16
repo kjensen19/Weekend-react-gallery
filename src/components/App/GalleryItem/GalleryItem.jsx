@@ -24,7 +24,7 @@ function GalleryItem({galleryItem, fetchGallery}) {
 
     //OnClick for like button (calls PUT)
     return(
-        <article key={galleryItem.id} className="Card">
+        <article className="Card">
             <header>
                 <h2>A short heading</h2>
             </header>    
