@@ -6,11 +6,14 @@ const galleryItems = require('../modules/gallery.data');
 
 // PUT Route
 router.put('/like/:id', (req, res) => {
-    console.log(req.params);
+    console.log('id?', req.params.id);
+    
     const galleryId = req.params.id;
     for(const galleryItem of galleryItems) {
+        console.log('db id', galleryItem.id ==galleryId)
         if(galleryItem.id == galleryId) {
             galleryItem.likes += 1;
+            console.log('SS likes =', galleryItem.likes)
         }
     }
     res.sendStatus(200);
@@ -18,6 +21,7 @@ router.put('/like/:id', (req, res) => {
 
 // GET Route
 router.get('/', (req, res) => {
+    console.log('here in SS GET')
     res.send(galleryItems);
 }); // END GET Route
 
