@@ -63,8 +63,8 @@ For each `feature` of your application, make a branch, work on the branch, and t
 
 ### Features
 
-- Move the data into a database (postgresql)
-    - name your database `react_gallery`
+- ✅Move the data into a database (postgresql)
+    - ✅name your database `react_gallery`
     - include a `database.sql` file documenting your database tables
 - Add a form (new **component**) that allows a user to POST a new gallery item
   - Client side form (use absolute URL for images)
