@@ -20,14 +20,13 @@
   grid-gap: 20px;
 }
 
-.card {
-  display: grid;
-  grid-template-rows: max-content 200px 1fr;
+
+.hidden {
+  visibility: hidden;
 }
 
-.card img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
+p {
+  position: relative;
+  top: 10
+
 }
-  
