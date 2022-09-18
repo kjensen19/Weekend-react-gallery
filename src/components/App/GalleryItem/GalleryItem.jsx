@@ -17,6 +17,18 @@ function GalleryItem({galleryItem, fetchGallery}) {
         })
     }
 
+    const deleteImage = () => {
+        axios({
+            method: 'DELETE',
+            url: `/gallery/${galleryItem.id}`
+        }).then((response) => {
+            alert('Image removed')
+            fetchGallery()            
+        }).catch((error) => {
+            console.log('delete failed: ', error)
+        })
+    }
+
 
     //OnClick for like button (calls PUT)
     return(
@@ -28,6 +40,7 @@ function GalleryItem({galleryItem, fetchGallery}) {
             <footer>
                 <h1>{galleryItem.likes}</h1>
                 <button onClick={countLikes}>Like</button>
+                <button onClick={deleteImage}>Delete</button>
             </footer>
         </article>
     )
