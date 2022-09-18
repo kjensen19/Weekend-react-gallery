@@ -5,22 +5,39 @@ const pool = require('../modules/pool')
 
 // DO NOT MODIFY THIS FILE FOR BASE MODE
 
-
-// router.delete('/:id', (req, res) => {
+// router.post('/', (req, res) => {
+//     console.log('data in SS POST:', req.body)
 //     const sqlText = `
-//         DELETE FROM students
-//         WHERE id=$1;
+//     INSERT INTO shoppingList (name, quantity, units)
+// 	VALUES ($1, $2, $3)
 //     `
-//     const sqlValues = [req.params.id]
-//     pool.query(sqlText, sqlValues)
-//     .then((dbRes) => {
-//         res.sendStatus(200)
-//     })
-//     .catch((dbErr) => {
-//         console.log('SQL failed in DELETE /students/:id', dbErr)
-//         res.sendStatus(500)
-//     })
+//     const sqlVal = [req.body.name, req.body.quantity, req.body.units]
+//     pool.query(sqlText, sqlVal)
+//         .then((result) => {
+//             res.sendStatus(201)
+//         }).catch((error) => {
+//             console.log('Error in SS POST', error)
+//             res.sendStatus(500)
+//         })
 // })
+router.post('/', (req, res) => {
+    console.log('data in SS POST', req.body.path)
+    const sqlText = `
+    INSERT INTO galleryInfo (path, description)
+	VALUES ($1, $2)
+    `
+    const sqlValues = [req.body.path, req.body.description]
+    pool.query(sqlText, sqlValues)
+        .then((results) => {
+            res.sendStatus(201)
+        }).catch((error) => {
+            console.log('Error in SS POST', error)
+            res.sendStatus(500)
+        })
+})
+
+
+
 // PUT Route
 router.put('/like/:id', (req, res) => {
     console.log('id?', req.params.id);
@@ -69,40 +86,44 @@ router.get('/', (req, res) => {
         })
 }); // END GET Route
 
+//DELETE ROUTE
+router.delete('/:id', (req, res) => {
+    console.log('del id?', req.params.id);
+    const sqlText = `
+    DELETE from galleryInfo Where "id"=$1
+    `
+    const sqlValues = [req.params.id]
+    pool.query(sqlText, sqlValues)
+    .then((dbRes) => {
+        res.sendStatus(200)
+    })
+    .catch((dbErr) => {
+        console.log('SQL failed in DEL: ', dbErr)
+        res.sendStatus(500)
+    })})
+
 module.exports = router;
 
-// const express = require('express');
-// const router = express.Router();
-// const pool = require('../modules/pool');
 
-// // GET students
-// router.get('/', (req, res) => {
-//     // Get all of the treats from the database
-//     const sqlText = `SELECT * FROM students`;
-//     pool.query(sqlText)
-//         .then((result) => {
-//             console.log(result.rows)
-//             res.send(result.rows);
-//         })
-//         .catch((error) => {
-//             console.log(`Error making database query ${sqlText}`, error);
-//             res.sendStatus(500);
-//         });
+
+// router.delete('/:id', (req, res) => {
+//     console.log(`Deleting Item, ID ${req.params.id}`);
+    
+//     let deleteID = [req.params.id];
+    
+//     const sqlText = `
+//         DELETE from shoppingList
+//         WHERE "id"=$1;
+//         `
+    
+//         pool.query(sqlText, deleteID)
+// .then((result) => {
+//     res.sendStatus(200);
+// })
+// .catch((error) => {
+//     console.log(`Error Deleting Item`, error)
+//     res.sendStatus(500);
 // });
-
-// // POST students
-// router.post('/', (req, res) => {
-//     const newStudent = req.body.github_name;
-//     const sqlText = `INSERT INTO students (github_name) VALUES ($1)`;
-
-//     pool.query(sqlText, [newStudent])
-//         .then((result) => {
-//             res.sendStatus(201);
-//         })
-//         .catch((error) => {
-//             console.log(`Error making database query ${sqlText}`, error);
-//             res.sendStatus(500);
-//         });
 // });
 
 // router.delete('/:id', (req, res) => {
