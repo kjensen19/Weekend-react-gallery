@@ -7,6 +7,10 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 function GalleryItem({gallery, fetchGallery}) {
 
@@ -24,11 +28,23 @@ function GalleryItem({gallery, fetchGallery}) {
     }
 
     const deleteImage = () => {
+        <Stack sx={{ width: '100%' }} spacing={2}>
+            <Alert
+                action={
+                <Button color="inherit" size="small">
+                    UNDO
+                </Button>
+                }
+            >
+          The image will be deleted
+        </Alert>
+      </Stack>
+  
         axios({
             method: 'DELETE',
             url: `/gallery/${gallery.id}`
         }).then((response) => {
-            alert('Image removed')
+
             fetchGallery()            
         }).catch((error) => {
             console.log('delete failed: ', error)
@@ -48,7 +64,10 @@ function GalleryItem({gallery, fetchGallery}) {
                 title={gallery.description}
                 subtitle={gallery.likes}
                 actionIcon={
+                    <>
                     <FavoriteOutlinedIcon onClick={countLikes}/>
+                    <DeleteIcon onClick={deleteImage} />
+                    </>
                 }
             />
             </>
