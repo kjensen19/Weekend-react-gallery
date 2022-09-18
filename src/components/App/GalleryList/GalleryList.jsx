@@ -10,7 +10,7 @@ function GalleryList({gallery, fetchGallery}) {
     return(
         <>
         {gallery.map((item) => (
-            <ImageListItem key={item.id}>
+            <ImageListItem className='imgObj' key={item.id}>
                 <GalleryItem key={item.id} gallery={item} fetchGallery={fetchGallery}/>
             </ImageListItem>
               ))}

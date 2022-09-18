@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  justify-content: center;
 }
 
  .App-header {
@@ -16,4 +17,8 @@
 
 .hidden {
   visibility: hidden;
+}
+
+.imgObj {
+  border: .25rem solid black
 }
