@@ -1,22 +1,45 @@
+import * as React from 'react';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import ListSubheader from '@mui/material/ListSubheader';
 import GalleryItem from '../GalleryItem/GalleryItem.jsx'
 
 function GalleryList({gallery, fetchGallery}) {
 
     return(
-        <div className="cards">
-            {gallery.map(galleryItem =>{
-                return(
-                <GalleryItem key={galleryItem.id} galleryItem={galleryItem} fetchGallery={fetchGallery}/>
-                )
-            })}
-        </div>
-
+        <>
+        {gallery.map((item) => (
+            <ImageListItem key={item.id}>
+                <GalleryItem key={item.id} gallery={item} fetchGallery={fetchGallery}/>
+            </ImageListItem>
+              ))}
+        </>
     )
+
+
+    // return(
+    //     <div className="cards">
+    //         {gallery.map(galleryItem =>{
+    //             return(
+    //             <GalleryItem key={galleryItem.id} galleryItem={galleryItem} fetchGallery={fetchGallery}/>
+    //             )
+    //         })}
+    //     </div>
+
+    // )
 
 
 };
 
 export default GalleryList
+
+
+// {itemData.map((item) => (
+//     <ImageListItem key={item.img}>
+//         <GalleryItem key={galleryItem.id} galleryItem={galleryItem} fetchGallery={fetchGallery}/>
+//     </ImageListItem>
+//       ))}
 
 
 //Possible layout, CSS added to App.css and commented out as well
