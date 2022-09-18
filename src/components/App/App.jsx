@@ -3,7 +3,7 @@ import './App.css';
 import GalleryList from './GalleryList/GalleryList.jsx'
 import axios from 'axios';
 import GalleryAdd from './GalleryAdd/GalleryAdd.jsx'
-
+import TitlebarImageList from './GalleryOutline/GalleryOutline';
 function App() {
 
   useEffect(() => {
@@ -34,8 +34,9 @@ function App() {
         <header className="App-header">
           <h1 className="App-title">Gallery of My Life</h1>
         </header>
-        <GalleryList gallery={gallery} fetchGallery={fetchGallery}/>
-        <GalleryAdd fetchGallery={fetchGallery} />
+        <TitlebarImageList gallery={gallery} fetchGallery={fetchGallery}/>
+        {/* <GalleryList gallery={gallery} fetchGallery={fetchGallery}/>*/}
+        <GalleryAdd fetchGallery={fetchGallery} /> 
       </div>
     );
 }

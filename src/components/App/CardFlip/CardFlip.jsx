@@ -9,10 +9,6 @@ function CardFlip({gItem, gDesc}) {
 
         //PARALLAX? swap img and text?
     }
-    //PUT here for like button?
-    let showPic = <img  src={gItem} onClick={turnCard}/>
-    let showDesc = <p onClick={turnCard}>{gDesc}</p>
-    let displayOption = showPic
 
     return(
        <section onClick={turnCard}>
