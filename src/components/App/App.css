@@ -19,6 +19,52 @@
   visibility: hidden;
 }
 
-.imgObj {
-  border: .25rem solid black
+/* .imgObj {
+  border: .5rem solid black
+
+} */
+
+.galleryImg {
+  height:60rem;
+  width: 45rem;
+
+} 
+
+.outline {
+  align-content: center;
+  justify-content: center;
+}
+
+ul {
+  justify-items: center;
+  align-items: center;
+}
+
+
+.MuiImageListItemBar-actionIcon {
+  color: darkorchid;
+  height: 90%
+}
+
+.delButton {
+  color:darkgray;
+  height: 90%;
+}
+
+.MuiImageListItemBar-title{
+  font-size: 4rem;
+  padding: .5rem
+}
+
+div {
+  color:#222;
+  font-size: 2rem;
+}
+
+img {
+  border: .5rem solid white
+}
+
+button {
+  color: #222
 }

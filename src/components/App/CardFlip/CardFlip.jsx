@@ -20,15 +20,3 @@ function CardFlip({gItem, gDesc}) {
 }
 
 export default CardFlip
-
-// export default function App() {
-//     const [isActive, setIsActive] = useState(false);
-  
-//     const handleClick = event => {
-//       // 👇️ toggle isActive state on click
-//       setIsActive(current => !current);
-//     };
-  
-//     return (
-//       <div>
-//         <button className={isActive ? 'bg-salmon' : ''}
