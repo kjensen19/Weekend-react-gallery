@@ -1,40 +1,53 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool')
-//const galleryItems = require('../modules/gallery.data');
+const multer  = require('multer')
+// const imageUpload = multer({
+//     dest: 'images'})
 
-// DO NOT MODIFY THIS FILE FOR BASE MODE
+    const imageUpload = multer({
+        storage: multer.diskStorage(
+            {
+                destination: function (req, file, cb) {
+                    cb(null, './public/images/');
+                },
+                filename: function (req, file, cb) {
+                    cb(
+                        null,
+                        new Date().valueOf() + 
+                        '_' +
+                        file.originalname
+                    );
+                }
+            }
+        ), 
+    });
 
-// router.post('/', (req, res) => {
-//     console.log('data in SS POST:', req.body)
-//     const sqlText = `
-//     INSERT INTO shoppingList (name, quantity, units)
-// 	VALUES ($1, $2, $3)
-//     `
-//     const sqlVal = [req.body.name, req.body.quantity, req.body.units]
-//     pool.query(sqlText, sqlVal)
-//         .then((result) => {
-//             res.sendStatus(201)
-//         }).catch((error) => {
-//             console.log('Error in SS POST', error)
-//             res.sendStatus(500)
-//         })
-// })
-router.post('/', (req, res) => {
-    console.log('data in SS POST', req.body.path)
+
+
+router.post('/', imageUpload.single('image'), (req, res) => {
+    const { filename, mimetype, size } = req.file;
+    const filepath = req.file.path;
+    const description = req.file.description
     const sqlText = `
-    INSERT INTO galleryInfo (path, description)
-	VALUES ($1, $2)
+        INSERT INTO galleryInfo (filename, path, mimetype, size, description)
+	    VALUES ($1, $2, $3, $4, $5)
     `
-    const sqlValues = [req.body.path, req.body.description]
+    const sqlValues = [filename, filepath, mimetype, size, req.body.description]
     pool.query(sqlText, sqlValues)
-        .then((results) => {
-            res.sendStatus(201)
-        }).catch((error) => {
-            console.log('Error in SS POST', error)
-            res.sendStatus(500)
-        })
-})
+        .then(() => res.json({ success: true, filename }))
+        .catch(err => res
+                          .json(
+                              { 
+                                  success: false,
+                                  message: 'upload failed',
+                                  stack: err.stack,
+                              }
+                          )
+        ); 
+});
+
+
 
 
 
@@ -55,36 +68,73 @@ router.put('/like/:id', (req, res) => {
         res.sendStatus(500)
     })
     
-//     const galleryId = req.params.id;
-//     for(const galleryItem of galleryItems) {
-//         console.log('db id', galleryItem.id ==galleryId)
-//         if(galleryItem.id == galleryId) {
-//             galleryItem.likes += 1;
-//             console.log('SS likes =', galleryItem.likes)
-//         }
-//     }
-
-// `    UPDATE galleryinfo SET likes = likes + 1
-// Where id=$1`
-}); // END PUT Route
+}); 
 
 // GET Route
 router.get('/', (req, res) => {
     console.log('here in SS GET')
+
     const sqlText = `
     SELECT * FROM galleryinfo
     ORDER BY id                
     `
     pool.query(sqlText)
         .then((result) => {
-            console.log('results.rows= ', result.rows)
-            res.send(result.rows)
+                console.log(result.rows)
+                res.send(result.rows);
+            })
+            .catch((error) => {
+                console.log(`Error making database query ${sqlText}`, error);
+                res.sendStatus(500);
+            });
+    });
+
+
+    router.get('/images/:filename', (req, res) => {
+        const { filename } = req.params;
+        const dirname = path.resolve();
+        const fullfilepath = path.join(dirname, 'image/' + filename)
+        return res.sendFile(fullfilepath)
+
+       
+    })
+
+// Image Get Routes
+router.get('/image/:filename', (req, res) => {
+    const { filename } = req.params;
+    sqlText = `
+        SELECT * from galleryInfo
+          WHERE filename='$1'
+    `
+    sqlValues = [filename]
+    pool.query(sqlText, sqlValues)
+        .then(images => {
+            if (images[0]) {
+                const dirname = path.resolve();
+                const fullfilepath = path.join(
+                                         dirname, 
+                                         images[0].filepath);
+                return res
+                           .type(images[0].mimetype)
+                           .sendFile(fullfilepath);
+            }
+            return Promise.reject(
+                new Error('Image does not exist')
+            );
         })
-        .catch((error) => {
-            console.log('Server side GET is on fire', error);
-            res.sendStatus(500)
-        })
-}); // END GET Route
+        .catch(err => res
+                          .status(404)
+                          .json(
+                              {
+                                  success: false, 
+                                  message: 'not found', 
+                                  stack: err.stack,
+                               }
+                          ),
+        );
+});
+
+         // END GET Route
 
 //DELETE ROUTE
 router.delete('/:id', (req, res) => {
@@ -103,43 +153,3 @@ router.delete('/:id', (req, res) => {
     })})
 
 module.exports = router;
-
-
-
-// router.delete('/:id', (req, res) => {
-//     console.log(`Deleting Item, ID ${req.params.id}`);
-    
-//     let deleteID = [req.params.id];
-    
-//     const sqlText = `
-//         DELETE from shoppingList
-//         WHERE "id"=$1;
-//         `
-    
-//         pool.query(sqlText, deleteID)
-// .then((result) => {
-//     res.sendStatus(200);
-// })
-// .catch((error) => {
-//     console.log(`Error Deleting Item`, error)
-//     res.sendStatus(500);
-// });
-// });
-
-// router.delete('/:id', (req, res) => {
-//     const sqlText = `
-//         DELETE FROM students
-//         WHERE id=$1;
-//     `
-//     const sqlValues = [req.params.id]
-//     pool.query(sqlText, sqlValues)
-//     .then((dbRes) => {
-//         res.sendStatus(200)
-//     })
-//     .catch((dbErr) => {
-//         console.log('SQL failed in DELETE /students/:id', dbErr)
-//         res.sendStatus(500)
-//     })
-// })
-
-// module.exports = router;

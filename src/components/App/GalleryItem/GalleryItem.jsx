@@ -4,10 +4,17 @@ import * as React from 'react';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useState } from 'react';
 
 
 function GalleryItem({gallery, fetchGallery}) {
+    console.log(`${gallery.path}` + "?w=248&fit=crop&auto=format")
 
+    const [isVisible, setIsVisible] =useState(true);
+
+    const turnCard = event => {
+        setIsVisible(current => !current)
+    }
 
     const countLikes =() => {
         axios({
@@ -20,7 +27,6 @@ function GalleryItem({gallery, fetchGallery}) {
             console.log('like failed')
         })
     }
-
     const deleteImage = () => {
         axios({
             method: 'DELETE',
@@ -33,41 +39,40 @@ function GalleryItem({gallery, fetchGallery}) {
         })
     }
 
+    gallery.likes = `Likes: ${gallery.likes}`
+    
+
         return (
             <>
             <img
-                src={`${gallery.path}?w=248&fit=crop&auto=format`}
-                srcSet={`${gallery.path}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={`/images/${gallery.filename}` + `?w=248&fit=crop&auto=format`}
+                srcSet={`/images/${gallery.filename}` + `?w=248&fit=crop&auto=format&dpr=2 2x`}
                 alt={gallery.description}
                 loading="lazy"
+                className="galleryImg"
+                onClick={CardFlip}
                 
             />
             <ImageListItemBar
+                sx={{
+                    background:'white',
+                    fontSize: '4rem',
+                }}
                 title={gallery.description}
-                subtitle={gallery.likes}
+                subtitle= {gallery.likes}
                 actionIcon={
                     <>
                     <FavoriteOutlinedIcon onClick={countLikes}/>
-                    <DeleteIcon onClick={deleteImage} />
+                    <DeleteIcon 
+                    onClick={deleteImage} 
+                    className="delButton"
+                    />
                     </>
                 }
             />
             </>
         )
-    //OnClick for like button (calls PUT)
-    // return(
-    //     <article >
-    //         <header>
-    //             <h2>GOAT</h2>
-    //         </header>  
-    //             <CardFlip gItem={galleryItem.path} gDesc={galleryItem.description} />
-    //         <footer>
-    //             <h1>{galleryItem.likes}</h1>
-    //             <button onClick={countLikes}>Like</button>
-    //             <button onClick={deleteImage}>Delete</button>
-    //         </footer>
-    //     </article>
-    // )
+
 
 }
 
@@ -76,13 +81,4 @@ export default GalleryItem
 {/* <img
 src={`${item.img}?w=248&fit=crop&auto=format`}
 srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-alt={item.title}
-loading="lazy"
-/>
-<ImageListItemBar
-title={item.title}
-subtitle={item.author}
-actionIcon={
-    <FavoriteOutlinedIcon />
-}
-/> */}
+ */}
