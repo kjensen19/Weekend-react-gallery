@@ -35,7 +35,9 @@ router.post('/', imageUpload.single('image'), (req, res) => {
     `
     const sqlValues = [filename, filepath, mimetype, size, req.body.description]
     pool.query(sqlText, sqlValues)
-        .then(() => res.json({ success: true, filename }))
+        .then((dbRes) => {
+            res.sendStatus(204)
+        })
         .catch(err => res
                           .json(
                               { 
