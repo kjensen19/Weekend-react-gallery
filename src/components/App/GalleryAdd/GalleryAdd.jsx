@@ -7,6 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios'
 
 
 function GalleryAdd({ fetchGallery }) {
@@ -25,9 +26,23 @@ function GalleryAdd({ fetchGallery }) {
     };
 
 
-function handleSubmit(e) {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+      handleClose()
+      setTimeout(function() { fetchGallery(); }, 3000);
+
+      function fetchGallery() {
 }
+  
+  
+  
+}
+    //e.preventDefault();
+    // axios.all([])
+    // .then((response) => {
+    //   console.log('made it')
+    // fetchGallery()
+
+
 
 
     const handleChange = e => {
@@ -37,7 +52,7 @@ function handleSubmit(e) {
             [name]: value
         }));
     };
-
+  
 
     return (
         <div>
@@ -46,7 +61,7 @@ function handleSubmit(e) {
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add Image</DialogTitle>
-            <form encType="multipart/form-data"  method='post' action='/gallery' >
+            <form encType="multipart/form-data" method="POST" action="/gallery" onSubmit={handleSubmit}>
             <DialogContent>
                 <DialogContentText>
                     To add an image please fill out the form below
