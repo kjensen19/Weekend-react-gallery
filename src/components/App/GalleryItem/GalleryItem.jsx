@@ -1,19 +1,25 @@
 import axios from 'axios'
-import CardFlip from '../CardFlip/CardFlip'
 import * as React from 'react';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
+import Paper from '@mui/material/Paper';
 
 
 function GalleryItem({gallery, fetchGallery}) {
+    const [opacity, setOpacity] = useState(1);
     console.log(`${gallery.path}` + "?w=248&fit=crop&auto=format")
 
     const [isVisible, setIsVisible] =useState(true);
 
-    const turnCard = event => {
-        setIsVisible(current => !current)
+    const turnCard = () => {
+        if (opacity === 0) {
+            setOpacity(1)
+        }
+        else{
+            setOpacity(0)
+        }
     }
 
     const countLikes =() => {
@@ -50,9 +56,13 @@ function GalleryItem({gallery, fetchGallery}) {
                 alt={gallery.description}
                 loading="lazy"
                 className="galleryImg"
-                onClick={CardFlip}
+                onClick={turnCard}
+                style={{ opacity: opacity }}
+                
+
                 
             />
+            <h1 className="hiddenDesc">{gallery.description}</h1>
             <ImageListItemBar
                 sx={{
                     background:'white',
