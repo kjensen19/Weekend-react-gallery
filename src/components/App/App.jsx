@@ -11,6 +11,8 @@ function App() {
   }, [])
   
   let [gallery, setGallery] = useState([])
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   //GET
   const fetchGallery = () => {
@@ -36,7 +38,7 @@ function App() {
         </header>
         <TitlebarImageList gallery={gallery} fetchGallery={fetchGallery}/>
         {/* <GalleryList gallery={gallery} fetchGallery={fetchGallery}/>*/}
-        <GalleryAdd fetchGallery={fetchGallery} /> 
+        <GalleryAdd fetchGallery={fetchGallery} forceUpdate={forceUpdate}/> 
       </div>
     );
 }

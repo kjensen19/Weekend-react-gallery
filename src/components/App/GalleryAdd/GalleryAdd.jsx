@@ -10,11 +10,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios'
 
 
-function GalleryAdd({ fetchGallery }) {
+function GalleryAdd({ fetchGallery, forceUpdate }) {
     const [newItem, setNewItem] = useState({image:'', description:''})
     const [open, setOpen] = React.useState(false);
     const [selectedImage, setSelectedImage] = useState(null)
-    const [description, setDescription] = useState()   
+    const [description, setDescription] = useState('')   
 
 
     const handleClickOpen = () => {
@@ -26,16 +26,17 @@ function GalleryAdd({ fetchGallery }) {
     };
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = () => {
       handleClose()
-      setTimeout(function() { fetchGallery(); }, 3000);
+}
 
-      function fetchGallery() {
-}
+  const handleClick = () => {
+    fetchGallery()
+  }
   
   
   
-}
+
     //e.preventDefault();
     // axios.all([])
     // .then((response) => {
