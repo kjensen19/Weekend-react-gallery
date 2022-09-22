@@ -5,12 +5,13 @@ import axios from 'axios';
 import GalleryAdd from './GalleryAdd/GalleryAdd.jsx'
 import TitlebarImageList from './GalleryOutline/GalleryOutline';
 function App() {
-
+  //Calls intial fetch
   useEffect(() => {
     fetchGallery()
   }, [])
   
   let [gallery, setGallery] = useState([])
+  //states below were (failed) attempts to trigger a rerender in the addItem
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
@@ -36,7 +37,7 @@ function App() {
         <header className="App-header">
           <h1 className="App-title">Gallery of My Life</h1>
         </header>
-        <TitlebarImageList gallery={gallery} fetchGallery={fetchGallery}/>
+        <TitlebarImageList gallery={gallery} fetchGallery={fetchGallery} />
         {/* <GalleryList gallery={gallery} fetchGallery={fetchGallery}/>*/}
         <GalleryAdd fetchGallery={fetchGallery} forceUpdate={forceUpdate}/> 
       </div>

@@ -8,20 +8,17 @@ import Paper from '@mui/material/Paper';
 
 
 function GalleryItem({gallery, fetchGallery}) {
-    const [opacity, setOpacity] = useState(1);
-    console.log(`${gallery.path}` + "?w=248&fit=crop&auto=format")
-
-    const [isVisible, setIsVisible] =useState(true);
+    //state and function to handle clicking to flip/hide
+    const [isVisible, setIsVisible] =useState('visible');
 
     const turnCard = () => {
-        if (opacity === 0) {
-            setOpacity(1)
+        if(isVisible === 'visible'){
+            setIsVisible('hidden')
+            return
         }
-        else{
-            setOpacity(0)
-        }
+        setIsVisible('visible')
     }
-
+    //put request to add to the like count in the db and then rerender
     const countLikes =() => {
         axios({
             method: 'PUT',
@@ -33,6 +30,7 @@ function GalleryItem({gallery, fetchGallery}) {
             console.log('like failed')
         })
     }
+    //del method captures id, deletes and rerenders
     const deleteImage = () => {
         axios({
             method: 'DELETE',
@@ -44,43 +42,43 @@ function GalleryItem({gallery, fetchGallery}) {
             console.log('delete failed: ', error)
         })
     }
-
-    gallery.likes = `Likes: ${gallery.likes}`
     
-
+        //rendering for image/description/like and del buttons
+        //Uses filename from db plus /images to access images
+        //MUI Paper used to add contrast
+        //MUI icons used for like and delete (heart and trash)
         return (
-            <>
-            <img
-                src={`/images/${gallery.filename}` + `?w=248&fit=crop&auto=format`}
-                srcSet={`/images/${gallery.filename}` + `?w=248&fit=crop&auto=format&dpr=2 2x`}
-                alt={gallery.description}
-                loading="lazy"
-                className="galleryImg"
-                onClick={turnCard}
-                style={{ opacity: opacity }}
-                
+            <Paper elevation={10} onClick={turnCard}>
+                <img
+                    src={`/images/${gallery.filename}?w=248&fit=crop&auto=format`}
+                    srcSet={`/images/${gallery.filename}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                    alt={gallery.description}
+                    loading="lazy"
+                    className="galleryImg"
+                    style={{ visibility: isVisible }}
+                    
 
-                
-            />
-            <h1 className="hiddenDesc">{gallery.description}</h1>
-            <ImageListItemBar
-                sx={{
-                    background:'white',
-                    fontSize: '4rem',
-                }}
-                title={gallery.description}
-                subtitle= {gallery.likes}
-                actionIcon={
-                    <>
-                    <FavoriteOutlinedIcon onClick={countLikes}/>
-                    <DeleteIcon 
-                    onClick={deleteImage} 
-                    className="delButton"
-                    />
-                    </>
-                }
-            />
-            </>
+                    
+                />
+                <h1 className="hiddenDesc" style={{visibility:(isVisible === 'hidden' ? 'visible' : 'hidden' )}}>{gallery.description}</h1>
+                <ImageListItemBar
+                    sx={{
+                        background:'white',
+                        fontSize: '4rem',
+                    }}
+                    title= {`Likes: ${gallery.likes}`}
+                    actionIcon={
+                        <>
+                        <FavoriteOutlinedIcon size="large" onClick={countLikes}/>
+                        <DeleteIcon 
+                        onClick={deleteImage} 
+                        className="delButton"
+                        />
+                        </>
+                    }
+                />
+            </Paper>
+            
         )
 
 

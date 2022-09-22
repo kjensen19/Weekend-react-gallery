@@ -1,16 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool')
+//Multer import
 const multer  = require('multer')
 // const imageUpload = multer({
 //     dest: 'images'})
-
+    //multer file naming and pathing function (mostly used to append jpg to the files) and then place them
+    //in public/images
     const imageUpload = multer({
         storage: multer.diskStorage(
             {
                 destination: function (req, file, cb) {
                     cb(null, './public/images/');
                 },
+                //multer default is just a datetime string, this adds an extension
                 filename: function (req, file, cb) {
                     cb(
                         null,
@@ -24,11 +27,13 @@ const multer  = require('multer')
     });
 
 
-
+//Post route, pretty cursed it takes the info from the form multitype data and splits out the req.file info
+//the image upload function from above is also called. 
 router.post('/', imageUpload.single('image'), (req, res) => {
     const { filename, mimetype, size } = req.file;
     const filepath = req.file.path;
     const description = req.file.description
+    //SQL query to insert everything into the DB (besides the file)
     const sqlText = `
         INSERT INTO galleryInfo (filename, path, mimetype, size, description)
 	    VALUES ($1, $2, $3, $4, $5)
@@ -36,7 +41,7 @@ router.post('/', imageUpload.single('image'), (req, res) => {
     const sqlValues = [filename, filepath, mimetype, size, req.body.description]
     pool.query(sqlText, sqlValues)
         .then((dbRes) => {
-            res.sendStatus(204)
+            res.sendStatus(204) //status code that does not trigger redirects
         })
         .catch(err => res
                           .json(
@@ -53,7 +58,7 @@ router.post('/', imageUpload.single('image'), (req, res) => {
 
 
 
-// PUT Route
+// PUT Route to update like count
 router.put('/like/:id', (req, res) => {
     console.log('id?', req.params.id);
     const sqlText = `
@@ -72,7 +77,7 @@ router.put('/like/:id', (req, res) => {
     
 }); 
 
-// GET Route
+// GET Route fetch gallery info
 router.get('/', (req, res) => {
     console.log('here in SS GET')
 
