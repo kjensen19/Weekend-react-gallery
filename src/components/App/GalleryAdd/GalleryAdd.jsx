@@ -9,14 +9,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios'
 
-
+//function to addFile
 function GalleryAdd({ fetchGallery, forceUpdate }) {
     const [newItem, setNewItem] = useState({image:'', description:''})
     const [open, setOpen] = React.useState(false);
-    const [selectedImage, setSelectedImage] = useState(null)
-    const [description, setDescription] = useState('')   
 
 
+    //open and close add image section
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -25,11 +24,11 @@ function GalleryAdd({ fetchGallery, forceUpdate }) {
       setOpen(false);
     };
 
-
+    //onSubmit also close the popped section
     const handleSubmit = () => {
       handleClose()
 }
-
+  //call to re-render gallery, unfortunately it is happening at the same time as the post so the new item is not rendered
   const handleClick = () => {
     fetchGallery()
   }
@@ -45,7 +44,7 @@ function GalleryAdd({ fetchGallery, forceUpdate }) {
 
 
 
-
+    //handling input change
     const handleChange = e => {
         const { name, value} = e.target;
         setNewItem(newItem => ({
@@ -54,7 +53,11 @@ function GalleryAdd({ fetchGallery, forceUpdate }) {
         }));
     };
   
-
+    //The only way I was able to get the file upload to work was using the form built in post.
+    //I couldn't succesfully capture the file data in the even (which should work, I may need to revist)
+    //I can't find a way to catch the server response and then call the fetch so they are happening simultaneously
+    //using response status 204 does prevent the browser redirect (to show the json result on 5000).
+    //So images can be added byt the page must be manually refreshed in order to see the new image
     return (
         <div>
           <Button variant="outlined" onClick={handleClickOpen}>
