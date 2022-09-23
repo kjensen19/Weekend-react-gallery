@@ -8,9 +8,9 @@ function GalleryList({gallery, fetchGallery}) {
     return(
         <>
         {gallery.map((item) => (
-                <Paper elevation={12}>
-                    <ImageListItem className='imgObj' key={item.id} >
-                        <GalleryItem key={item.id} gallery={item} fetchGallery={fetchGallery} />
+                <Paper elevation={12} key={item.id}>
+                    <ImageListItem className='imgObj'  >
+                        <GalleryItem key={item.id} gallery={item} fetchGallery={fetchGallery} column={1}/>
                     </ImageListItem>
                 </Paper>
               ))}

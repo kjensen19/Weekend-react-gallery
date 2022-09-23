@@ -22,6 +22,7 @@ function GalleryAdd({ fetchGallery, forceUpdate }) {
   
     const handleClose = () => {
       setOpen(false);
+      
     };
 
     //onSubmit also close the popped section
@@ -54,10 +55,10 @@ function GalleryAdd({ fetchGallery, forceUpdate }) {
     };
   
     //The only way I was able to get the file upload to work was using the form built in post.
-    //I couldn't succesfully capture the file data in the even (which should work, I may need to revist)
+    //I couldn't succesfully capture the file data in the event (which should work, I may need to revist)
     //I can't find a way to catch the server response and then call the fetch so they are happening simultaneously
     //using response status 204 does prevent the browser redirect (to show the json result on 5000).
-    //So images can be added byt the page must be manually refreshed in order to see the new image
+    //So images can be added but the page must be manually refreshed in order to see the new image
     return (
         <div>
           <Button variant="outlined" onClick={handleClickOpen}>

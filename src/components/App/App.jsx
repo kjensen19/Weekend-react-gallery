@@ -35,9 +35,9 @@ function App() {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Gallery of My Life</h1>
+          <h1 className="App-title">Flower Garden</h1>
         </header>
-        <TitlebarImageList gallery={gallery} fetchGallery={fetchGallery} />
+        <TitlebarImageList gallery={gallery} fetchGallery={fetchGallery}  />
         {/* <GalleryList gallery={gallery} fetchGallery={fetchGallery}/>*/}
         <GalleryAdd fetchGallery={fetchGallery} forceUpdate={forceUpdate}/> 
       </div>
