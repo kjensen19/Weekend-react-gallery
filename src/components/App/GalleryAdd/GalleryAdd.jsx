@@ -22,7 +22,7 @@ function GalleryAdd({ fetchGallery, forceUpdate }) {
   
     const handleClose = () => {
       setOpen(false);
-      fetchGallery()
+      
     };
 
     //onSubmit also close the popped section
