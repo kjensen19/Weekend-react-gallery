@@ -10,7 +10,8 @@
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 4rem;
+  color:darkslateblue
 }
 
 
@@ -33,11 +34,13 @@
   border: 1rem solid white;
   border-radius: 2rem;
   z-index: 4;
+  
 }
 
 ul {
   justify-items: center;
   align-items: center;
+  border: 2rem solid ghostwhite;
 }
 
 
